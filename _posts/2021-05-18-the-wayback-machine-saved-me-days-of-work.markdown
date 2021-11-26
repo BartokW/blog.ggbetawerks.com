@@ -3,6 +3,7 @@ title: The Wayback Machine Saved Me Days of Work
 date: '2021-05-18 14:06:00'
 header: 
   image: "/assets/images/waybackmachine.svg"
+  teaser: "/assets/images/waybackmachine.svg"
 tags:
 - software-development
 ---

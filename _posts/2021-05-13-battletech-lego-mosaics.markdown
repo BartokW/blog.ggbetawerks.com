@@ -3,6 +3,7 @@ layout: single
 title: Battletech Lego Mosaics
 header: 
   image: "/assets/images/Battletech.jpg"
+  teaser: "/assets/images/Battletech.jpg"
   caption: "Battletech Video Game Logo"
 date: '2021-05-13 14:12:31'
 tags:

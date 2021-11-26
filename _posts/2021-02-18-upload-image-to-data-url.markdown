@@ -3,6 +3,7 @@ title: Upload Image and Convert to Data URL in Angular
 date: '2021-02-18 17:12:59'
 header: 
   image: "/assets/images/angular.svg"
+  teaser: "/assets/images/angular.svg"
 tags:
 - angular
 - software-development

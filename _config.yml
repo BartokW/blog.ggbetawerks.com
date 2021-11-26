@@ -64,8 +64,10 @@ plugins:
 include:
   - _pages
 
-repository: 'bartokw/blog.ggbetawerks.com'
+repository: 'BartokW/blog.ggbetawerks.com'
 logo: '/assets/images/gg-logo-copy.svg'
+# teaser: '/assets/images/teaser' # default teaser image
+# og_image: '' # fallback image for Twitter media card image if there isn't a header image
 words_per_minute: 200
 
 search: true # true, false (default)
@@ -86,9 +88,6 @@ author:
   location: 'Edmonton, Alberta, Canada'
   email: 'jonw@ggsoftwerks.com'
   links:
-    - label: 'Website'
-      icon: 'fas fa-fw fa-link'
-      url: 'https://linktr.ee/jonwarrington'
     - label: 'Twitter'
       icon: 'fab fa-fw fa-twitter-square'
       url: 'https://twitter.com/JonWarrington'
@@ -101,6 +100,9 @@ author:
     - label: 'Instagram'
       icon: 'fab fa-fw fa-instagram'
       url: 'https://instagram.com/JonWarrington'
+    - label: 'LinkTree'
+      icon: 'fas fa-fw fa-link'
+      url: 'https://linktr.ee/jonwarrington'
 
 # Outputting
 permalink: /:title/
@@ -139,3 +141,26 @@ defaults:
       comments: false # true
       share: true
       related: true
+      show_date: true
+  # _pages
+  - scope:
+      path: ''
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+analytics:
+  provider: 'google-gtag'
+  google:
+    tracking_id: 'UA-149211643-1'
+    anonymize_ip: false # default
+
+footer:
+  links:
+    - label: 'Twitter'
+      icon: 'fab fa-fw fa-twitter-square'
+      url: 'https://twitter.com/JonWarrington'
+    - label: 'GitHub'
+      icon: 'fab fa-fw fa-github'
+      url: 'https://github.com/BartokW'

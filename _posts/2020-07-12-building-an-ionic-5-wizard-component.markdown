@@ -3,6 +3,7 @@ title: Building an Ionic 5 Wizard Component in Angular
 date: '2020-07-12 20:10:00'
 header: 
   image: "/assets/images/ionic-angular-copy.svg"
+  teaser: "/assets/images/ionic-angular-copy.svg"
 tags:
 - ionic
 - angular
