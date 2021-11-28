@@ -3,6 +3,7 @@ layout: single
 title: Dice Animation
 tags:
 - angular
+- software-development
 ---
 
 Article about implementing the dice animation for the ng-dice-roller library.

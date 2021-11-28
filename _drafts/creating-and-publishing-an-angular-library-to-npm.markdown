@@ -5,6 +5,7 @@ tags:
 - angular
 - npm
 - github
+- software-development
 ---
 
 Basing on [https://medium.com/angular-in-depth/the-ultimate-guide-to-set-up-your-angular-library-project-399d95b63500](https://medium.com/angular-in-depth/the-ultimate-guide-to-set-up-your-angular-library-project-399d95b63500)
@@ -22,18 +23,18 @@ Basic steps:
 <!--kg-card-end: html-->
 
 Create angular project without creating application
-
+```bash
     ng new ng-dice-roller --create-application=false
-
+```
 Create library
-
+```bash
     cd ng-dice-roller
     ng generate library ng-dice-roller
-
+```
 Create example app
-
+```bash
     ng generate application ng-dice-roller-example
-
+```
 Populate the library with code, service, models, components, etc.
 
 Set the default app in angular.json to the example
@@ -47,19 +48,19 @@ Steps push, run tests, build and publish the example site, build and publish the
 Code coverage reporting [https://codecov.io/#features](https://codecov.io/#features)
 
 Add a command to the package.json to run the tests and generate code coverage report
-
+```json
     "test:lib-coverage": "ng test ng-dice-roller --code-coverage --watch=false"
-
+```
 Setup package.json commands for building the examples
-
+```json
     "build": "npm run build:lib && npm run build:website",
     "build:lib": "ng build ng-dice-roller && npm run copy:readme",
     "build:website": "ng build ng-dice-roller-example --base-href='https://bartokw.github.io/ng-dice-roller/'",
-
+```
 And for publishing the example site
-
+```json
     "publish:demo": "npx angular-cli-ghpages --dir=./dist/ng-dice-roller-example"
-
+```
 This deploy step uses `npx` to download and execute the `angular-cli-ghpages`. The `angular-cli-ghpages` then takes care of uploading the passed in directory which is our showcase.
 
 github actions info:

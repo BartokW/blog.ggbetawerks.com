@@ -1,6 +1,10 @@
 ---
 layout: single
 title: Logging Ionic/ Angular
+tags:
+- software-development
+- angular
+- ionic
 ---
 
 Logging to the server with Ionic / Angular so we have access to the logs.

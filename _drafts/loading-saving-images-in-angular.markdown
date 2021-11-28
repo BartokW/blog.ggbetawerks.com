@@ -1,6 +1,10 @@
 ---
 layout: single
 title: Loading / Saving files in Ionic Angular
+tags:
+- software-development
+- angular
+- ionic
 ---
 
 Dice Fun App, loading / saving files including images.
