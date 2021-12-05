@@ -33,7 +33,8 @@ Now I need to be able to do something when the user chooses a file, for this I'l
 		(change)="handleFileInput($event.target.files)"
 	/>
 ```
-<figure class="kg-card kg-code-card"><figcaption>Added the change event handler</figcaption></figure>
+<figcaption>Added the change event handler</figcaption>
+
 
 To actually load the image into a data url which looks like this: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==` I will use the JavaScript FileReader class. &nbsp;This needs to have an onload callback set to do something with the file once it has been loaded.
 ```typescript
