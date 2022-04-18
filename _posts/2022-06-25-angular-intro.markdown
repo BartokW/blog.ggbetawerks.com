@@ -1,6 +1,6 @@
 ---
 title: Getting Started With Angular
-date: '2022-01-20 20:10:00'
+date: '2022-06-25 20:10:00'
 header:
  image: "/assets/images/angular.svg"
  teaser: "/assets/images/angular.svg"
@@ -101,7 +101,7 @@ Open the `my-app` folder your preferred web development IDE, I'm using Visual St
 
 ## Parts of the Application
 ### Module
-dsfgdfg
+Modules are logical groups of components, directives, and pipes. Library authors may group functionality into modules allowing for easy importing and sharing of code, as you would only need to import the module once, and not each of the components.  Within your own application modules can be used for separating out less used parts of the application, and allowing you to lazy load them as needed, thus reducing the initial load time of your application.
 
 ### Components
 Components are the main piece for building Angular applications.  You will likely build several components, and combine components into other more complex components when building your application.
@@ -109,9 +109,6 @@ Each component will have:
 - A TypeScript class that defines the behaviour
 - An HTML template to define what will be rendered
 - A selector which defines the tag name to be used in templates, and for CSS styling
-
-### Routing
-gsdfgdsfg
 
 ### Pipes
 Pipes are used to transform values for display in templates. These allow you to define a standard format for a type of value, for example dates in one location, and then you can use the pipe throughout the entire application so that the same format is used everywhere.
@@ -122,3 +119,8 @@ Pipes that are included with Angular:
 - Currency - Transforms a number to a formatted currency string based on locale rules
 - Decimal - Transforms a number to a formatted string with a decimal point based on locale rules
 - Percent - Transforms a number to a percentage string formatted according to locale rules
+- Async - Automatically subscribes / unsubscribes to an observable, returning the latest value of the observable
+- Json - Transforms an object to a JSON string (which is useful for debugging)
+
+### Routing
+
