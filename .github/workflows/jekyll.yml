@@ -17,9 +17,6 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - run: apt-get install liblapacke-dev
-      - run: apt-get install libopenblas-dev
-      - run: gem install numo-narray numo-linalg
       - uses: helaili/jekyll-action@v2
         with:
           jekyll_build_options: '--lsi'
