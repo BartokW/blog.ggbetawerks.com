@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="Layer_1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:docname="Ionic-logo-landscape.svg" inkscape:version="0.92.3 (2405546, 2018-03-11)"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="252.5px" height="147px"
+	 viewBox="0 0 252.5 147" enable-background="new 0 0 252.5 147" xml:space="preserve">
+<sodipodi:namedview  id="namedview32" inkscape:cy="73.3" inkscape:cx="179.8339" inkscape:zoom="0.4609375" pagecolor="#ffffff" fit-margin-left="0" guidetolerance="10" gridtolerance="10" fit-margin-top="0" objecttolerance="10" borderopacity="1" bordercolor="#666666" showgrid="false" inkscape:current-layer="Layer_1" inkscape:window-y="24" inkscape:window-x="65" fit-margin-bottom="0" fit-margin-right="0" inkscape:window-height="744" inkscape:window-width="1301" inkscape:pageshadow="2" inkscape:pageopacity="0" inkscape:window-maximized="1">
+	</sodipodi:namedview>
+<g id="g12">
+	<path id="path4" inkscape:connector-curvature="0" fill="#3880FF" d="M172.208,40.559c-18.22,0-32.99,14.772-32.99,32.988
+		c0,18.221,14.771,32.991,32.99,32.991c18.217,0,32.989-14.771,32.989-32.991C205.099,55.332,190.328,40.559,172.208,40.559z"/>
+	<g id="g8">
+		<circle id="circle6" fill="#3880FF" cx="219.475" cy="28.447" r="15.067"/>
+	</g>
+	<path id="path10" inkscape:connector-curvature="0" fill="#3880FF" d="M237.988,43.514l-0.588-1.379l-0.987,1.182
+		c-2.462,2.757-5.614,4.924-9.06,6.205l-0.986,0.394l0.395,0.985c3.055,7.189,4.53,14.87,4.53,22.647
+		c0,32.598-26.489,59.185-59.183,59.185c-32.694,0-59.086-26.587-59.086-59.185c0-32.593,26.492-59.182,59.185-59.182
+		c8.861,0,17.331,1.969,25.307,5.711l0.886,0.394l0.395-0.984c1.478-3.447,3.745-6.401,6.696-8.765l1.182-0.985l-1.379-0.689
+		c-10.337-5.318-21.467-8.075-33.185-8.075c-39.883,0-72.38,32.498-72.38,72.379s32.498,72.381,72.38,72.381
+		s72.379-32.499,72.379-72.381C244.488,63.11,242.322,53.065,237.988,43.514L237.988,43.514z"/>
+</g>
+<g>
+	<polygon fill="#DD0031" points="81.731,0.972 81.731,0.972 81.731,0.972 13.165,25.423 23.624,116.084 81.731,148.269 
+		81.731,148.269 81.731,148.269 139.84,116.084 150.297,25.423 	"/>
+	<polygon fill="#C3002F" points="81.731,0.972 81.731,17.322 81.731,17.249 81.731,91.854 81.731,91.854 81.731,148.269 
+		81.731,148.269 139.84,116.084 150.297,25.423 	"/>
+	<path fill="#FFFFFF" d="M81.731,17.249l-42.863,96.111l0,0H54.85l0,0l8.616-21.506h36.383l8.616,21.506l0,0h15.982l0,0
+		L81.731,17.249L81.731,17.249L81.731,17.249L81.731,17.249L81.731,17.249z M94.251,78.599H69.211l12.521-30.124L94.251,78.599z"/>
+</g>
+</svg>
