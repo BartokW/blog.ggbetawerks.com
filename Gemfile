@@ -4,7 +4,7 @@ source "https://rubygems.org"
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
 #
 #     bundle install
-#     bundle exec jekyll serve
+#     bundle exec jekyll serve --drafts --livereload
 #       Adding --drafts will show the drafts as posts
 #
 #   To find the files of the theme, example theme is minima
