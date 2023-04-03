@@ -5,6 +5,7 @@ source "https://rubygems.org"
 #
 #     bundle install
 #     bundle exec jekyll serve
+#       Adding --drafts will show the drafts as posts
 #
 #   To find the files of the theme, example theme is minima
 #     bundle info --path minima    

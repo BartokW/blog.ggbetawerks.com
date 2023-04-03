@@ -1,6 +1,5 @@
 ---
 title: Getting Started With Angular
-date: '2022-06-25 20:10:00'
 header:
  image: "/assets/images/angular.svg"
  teaser: "/assets/images/angular.svg"
