@@ -1,0 +1,863 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Building an Ionic 5 Wizard Component in Angular - Random Musing from Jon Warrington</title>
+<meta name="description" content="Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older versions of Ionic (1 or 2) and otherwise just finding suggestions to use the Slides component.  So here’s how I implemented an Ionic wizard modal component using the Ionic Slides component.">
+
+
+  <meta name="author" content="Jon Warrington">
+  
+  <meta property="article:author" content="Jon Warrington">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Random Musing from Jon Warrington">
+<meta property="og:title" content="Building an Ionic 5 Wizard Component in Angular">
+<meta property="og:url" content="https://blog.ggbetawerks.com/building-an-ionic-5-wizard-component/">
+
+
+  <meta property="og:description" content="Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older versions of Ionic (1 or 2) and otherwise just finding suggestions to use the Slides component.  So here’s how I implemented an Ionic wizard modal component using the Ionic Slides component.">
+
+
+
+  <meta property="og:image" content="https://blog.ggbetawerks.com/assets/images/ionic-angular-copy.svg">
+
+
+
+  <meta name="twitter:site" content="@JonWarrington">
+  <meta name="twitter:title" content="Building an Ionic 5 Wizard Component in Angular">
+  <meta name="twitter:description" content="Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older versions of Ionic (1 or 2) and otherwise just finding suggestions to use the Slides component.  So here’s how I implemented an Ionic wizard modal component using the Ionic Slides component.">
+  <meta name="twitter:url" content="https://blog.ggbetawerks.com/building-an-ionic-5-wizard-component/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://blog.ggbetawerks.com/assets/images/ionic-angular-copy.svg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-07-12T20:10:00-06:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://blog.ggbetawerks.com/building-an-ionic-5-wizard-component/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://blog.ggbetawerks.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Random Musing from Jon Warrington Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/gg-logo-copy.svg" alt="Random Musing from Jon Warrington"></a>
+        
+        <a class="site-title" href="/">
+          Random Musing from Jon Warrington
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/tags/battletech/">Battletech</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/software-development/">Software Development</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero"
+  style=" background-image: url('');"
+>
+  
+    <img src="/assets/images/ionic-angular-copy.svg" alt="Building an Ionic 5 Wizard Component in Angular" class="page__hero-image">
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatarpic-l-128x128.png" alt="Jon Warrington" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jon Warrington</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developing software professionally since 2001, working in all sorts of languages, and industries. Recently doing full stack development in C# and Angular.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Edmonton, Alberta, Canada</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://techhub.social/@JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span class="label">Mastodon</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/BartokW" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/bartokw/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+          
+            <li><a href="https://linktr.ee/jonwarrington" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">LinkTree</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:jonw@ggsoftwerks.com">
+            <meta itemprop="email" content="jonw@ggsoftwerks.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building an Ionic 5 Wizard Component in Angular">
+    <meta itemprop="description" content="Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older versions of Ionic (1 or 2) and otherwise just finding suggestions to use the Slides component.  So here’s how I implemented an Ionic wizard modal component using the Ionic Slides component.">
+    <meta itemprop="datePublished" content="2020-07-12T20:10:00-06:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Building an Ionic 5 Wizard Component in Angular
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-12T20:10:00-06:00">July 12, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older versions of Ionic (1 or 2) and otherwise just finding suggestions to use the Slides component.  So here’s how I implemented an Ionic wizard modal component using the Ionic Slides component.</p>
+
+<p>Source code is available on Github: <a href="https://github.com/BartokW/ion-wizard/tree/modal-wizard">https://github.com/BartokW/ion-wizard/tree/modal-wizard</a></p>
+
+<p>Start by following the Ionic <a href="https://ionicframework.com/getting-started#install">Getting Started guide</a>, but use the blank template instead of the tabs (which is currently suggested on the page).</p>
+
+<p>As we want this to be a modal, we should start with opening the modal, but the Ionic modal, requires you to pass a component in, so we need to create a component that will house the steps of our wizard. Use <code class="language-plaintext highlighter-rouge">ionic generate component</code> and pick a name, in my case I used <code class="language-plaintext highlighter-rouge">wizard</code>.</p>
+
+<p>Wherever you want the button to open the modal you will need to inject a <code class="language-plaintext highlighter-rouge">ModalController</code> in the constructor, as well as provide a method that will create and present the modal, as is being done in <code class="language-plaintext highlighter-rouge">presentModal()</code>. And then in the template, add something that will trigger the <code class="language-plaintext highlighter-rouge">presentModal()</code> method, I used a paragraph tag, but a button would be more standard.  Note that when creating the modal, we’re passing in the <code class="language-plaintext highlighter-rouge">WizardComponent</code> as that’s what we want to display in our new modal.</p>
+
+<h3 id="homepagets">home.page.ts</h3>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@angular/core</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">import</span> <span class="p">{</span> <span class="nx">ModalController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@ionic/angular</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">import</span> <span class="p">{</span> <span class="nx">WizardComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../wizard/wizard.component</span><span class="dl">'</span><span class="p">;</span>
+    
+    <span class="p">@</span><span class="nd">Component</span><span class="p">({</span>
+      <span class="na">selector</span><span class="p">:</span> <span class="dl">'</span><span class="s1">app-home</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">templateUrl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">home.page.html</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">styleUrls</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">home.page.scss</span><span class="dl">'</span><span class="p">],</span>
+    <span class="p">})</span>
+    <span class="k">export</span> <span class="kd">class</span> <span class="nx">HomePage</span> <span class="p">{</span>
+      <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">modalController</span><span class="p">:</span> <span class="nx">ModalController</span><span class="p">)</span> <span class="p">{}</span>
+    
+      <span class="k">async</span> <span class="nx">presentModal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">modal</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">modalController</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+          <span class="na">component</span><span class="p">:</span> <span class="nx">WizardComponent</span><span class="p">,</span>
+          <span class="na">swipeToClose</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="na">backdropDismiss</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="na">showBackdrop</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="p">});</span>
+    
+        <span class="k">return</span> <span class="k">await</span> <span class="nx">modal</span><span class="p">.</span><span class="nx">present</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>For the modal options, I wanted the background darkened, as well as didn’t want to be able to easily dismiss it, which is why those options were specified.</p>
+
+<h3 id="homepagehtml">home.page.html</h3>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ...
+        <span class="nt">&lt;p</span> <span class="na">(click)=</span><span class="s">"presentModal()"</span> <span class="na">style=</span><span class="s">"cursor: pointer;"</span><span class="nt">&gt;</span>
+          Click here for modal wizard
+        <span class="nt">&lt;/p&gt;</span>
+    ...
+</code></pre></div></div>
+
+<p>Now that we have a model, it’s time to start working on the wizard portion.  First step is to add the <code class="language-plaintext highlighter-rouge">ion-slides</code> component.  This is pretty much a copy from the Ionic documentation.</p>
+
+<h3 id="wizardcomponentts">wizard.component.ts</h3>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">import</span> <span class="p">{</span>
+      <span class="nx">Component</span><span class="p">,</span>
+      <span class="nx">OnInit</span><span class="p">,</span>
+    <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@angular/core</span><span class="dl">'</span><span class="p">;</span>
+    
+    <span class="p">@</span><span class="nd">Component</span><span class="p">({</span>
+      <span class="na">selector</span><span class="p">:</span> <span class="dl">'</span><span class="s1">app-wizard</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">templateUrl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./wizard.component.html</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">styleUrls</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">./wizard.component.scss</span><span class="dl">'</span><span class="p">],</span>
+    <span class="p">})</span>
+    <span class="k">export</span> <span class="kd">class</span> <span class="nx">WizardComponent</span> <span class="k">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+      <span class="nx">slideOpts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">initialSlide</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">speed</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+      <span class="p">};</span>
+    
+      <span class="kd">constructor</span><span class="p">()</span> <span class="p">{}</span>
+    
+      <span class="nx">ngOnInit</span><span class="p">()</span> <span class="p">{}</span>
+    
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="wizardcomponenthtml">wizard.component.html</h3>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;ion-content&gt;</span>
+      <span class="nt">&lt;ion-slides</span> <span class="na">pager=</span><span class="s">"true"</span> <span class="na">[options]=</span><span class="s">"slideOpts"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ion-slide&gt;</span>
+          <span class="nt">&lt;h1&gt;</span>Slide 1<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;/ion-slide&gt;</span>
+        <span class="nt">&lt;ion-slide&gt;</span>
+          <span class="nt">&lt;h1&gt;</span>Slide 2<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;/ion-slide&gt;</span>
+        <span class="nt">&lt;ion-slide&gt;</span>
+          <span class="nt">&lt;h1&gt;</span>Slide 3<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;/ion-slide&gt;</span>
+      <span class="nt">&lt;/ion-slides&gt;</span>
+    <span class="nt">&lt;/ion-content&gt;</span>
+</code></pre></div></div>
+
+<h3 id="wizardcomponentscss">wizard.component.scss</h3>
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">ion-slides</span> <span class="p">{</span>
+      <span class="nl">height</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>As we’re wanting this to be a wizard, we want to disable swiping between each of the slides, as we want Previous and Next buttons for moving between the slides.  The first way of disabling the swiping that I found used the api, and called <code class="language-plaintext highlighter-rouge">.lockSwipes(true)</code> which worked, but requires unlocking and relocking each time you navigate to a new page. I found an option that will disable swiping, but not lock the navigation  via api.  Add <code class="language-plaintext highlighter-rouge">allowTouchMove: false</code> to the <code class="language-plaintext highlighter-rouge">slideOpts</code> object.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">slideOpts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">initialSlide</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">speed</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="na">allowTouchMove</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">};</span>
+</code></pre></div></div>
+
+<p>Next we’re going to want to get access to the slides api so that we can programmatically switch slides. This is done by importing <code class="language-plaintext highlighter-rouge">ViewChild</code> from <code class="language-plaintext highlighter-rouge">@angular/core</code> and <code class="language-plaintext highlighter-rouge">IonSlides</code> from <code class="language-plaintext highlighter-rouge">@ionic/angular</code> and then adding this line inside of your wizard component.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="p">...</span>
+    <span class="p">@</span><span class="nd">ViewChild</span><span class="p">(</span><span class="nx">IonSlides</span><span class="p">)</span> <span class="nx">slides</span><span class="p">:</span> <span class="nx">IonSlides</span><span class="p">;</span>
+    <span class="p">...</span>
+</code></pre></div></div>
+
+<p>Now lets add some methods for changing the slides.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="p">...</span>
+    <span class="nx">prev</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">slides</span><span class="p">.</span><span class="nx">slidePrev</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="nx">next</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">slides</span><span class="p">.</span><span class="nx">slideNext</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+</code></pre></div></div>
+
+<p>And in the template file add a toolbar and some buttons.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ...
+    <span class="nt">&lt;ion-toolbar&gt;</span>
+      <span class="nt">&lt;ion-buttons</span> <span class="na">slot=</span><span class="s">"start"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ion-button</span> <span class="na">(click)=</span><span class="s">"prev()"</span><span class="nt">&gt;</span>Previous<span class="nt">&lt;/ion-button&gt;</span>
+      <span class="nt">&lt;/ion-buttons&gt;</span>
+    
+      <span class="nt">&lt;ion-buttons</span> <span class="na">slot=</span><span class="s">"end"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ion-button</span> <span class="na">(click)=</span><span class="s">"next()"</span><span class="nt">&gt;</span>Next<span class="nt">&lt;/ion-button&gt;</span>
+      <span class="nt">&lt;/ion-buttons&gt;</span>
+    <span class="nt">&lt;/ion-toolbar&gt;</span>
+</code></pre></div></div>
+<p>As for dismissing the modal, that goes back to the Ionic documentation, where we need to inject the <code class="language-plaintext highlighter-rouge">ModalController</code> into the constructor, and add a function to dismiss, and then hook it up to a button in the template.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="p">...</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">modalController</span><span class="p">:</span> <span class="nx">ModalController</span><span class="p">)</span> <span class="p">{}</span>
+    
+    <span class="nx">dismiss</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">modalController</span><span class="p">.</span><span class="nx">dismiss</span><span class="p">({});</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;ion-button</span> <span class="na">(click)=</span><span class="s">"dismiss()"</span><span class="nt">&gt;</span>Finish<span class="nt">&lt;/ion-button&gt;</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/angular" class="page__taxonomy-item" rel="tag">angular</a><span class="sep">, </span>
+    
+      <a href="/tags/ionic" class="page__taxonomy-item" rel="tag">ionic</a><span class="sep">, </span>
+    
+      <a href="/tags/software-development" class="page__taxonomy-item" rel="tag">software-development</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-07-12T20:10:00-06:00">July 12, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=JonWarrington&text=Building+an+Ionic+5+Wizard+Component+in+Angular%20https%3A%2F%2Fblog.ggbetawerks.com%2Fbuilding-an-ionic-5-wizard-component%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fblog.ggbetawerks.com%2Fbuilding-an-ionic-5-wizard-component%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fblog.ggbetawerks.com%2Fbuilding-an-ionic-5-wizard-component%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/xbox-360-hacked-account-still-not-resolved/" class="pagination--pager" title="XBox 360 Hacked Account Still Not Resolved
+">Previous</a>
+    
+    
+      <a href="/upload-image-to-data-url/" class="pagination--pager" title="Upload Image and Convert to Data URL in Angular
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/angular.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/upload-image-to-data-url/" rel="permalink">Upload Image and Convert to Data URL in Angular
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-02-18T17:12:59-07:00">February 18, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuratio...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/xbox-360-hacked-account-still-not-resolved/" rel="permalink">XBox 360 Hacked Account Still Not Resolved
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2012-01-08T22:32:00-07:00">January 8, 2012</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">After seeing an article on January 6, 2012, about someone else having their account hacked on the Kotaku gaming news site, and having read her account here, ...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/xbox-360-account-hacked-10-weeks-still-not-resolved/" rel="permalink">XBox 360 Account Hacked - 10 Weeks Still Not Resolved
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2011-12-07T20:19:00-07:00">December 7, 2011</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I know not many people read this blog (I don’t post enough) but just have to get this out there, as this is no way to make a happy customer.
+
+Approximately 1...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/rxjs-lego-art/angular-mosaic.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/rxjs-and-lego-art/" rel="permalink">RxJS and LEGO<sup>®</sup> Art
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-07-15T14:05:00-06:00">July 15, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I recently gave a lightning talk (short talk) at the Angular Community Meetup talking about using RxJS in making LEGO® mosaics
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <a rel="me" href="https://techhub.social/@JonWarrington">
+        <i class="fab fa-fw fa-mastodon" aria-hidden="true"></i>
+        Mastodon</a
+      >
+    </li>
+  </ul>
+</div>
+
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/BartokW" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Random Musing from Jon Warrington. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149211643-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149211643-1', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

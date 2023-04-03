@@ -1,0 +1,784 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Upload Image and Convert to Data URL in Angular - Random Musing from Jon Warrington</title>
+<meta name="description" content="I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuration can be stored somewhere for example storing it in the browsers localstorage.  To do this, I wanted to be able to load the image into a data url which is in a string format, making it easier to store.  I’m using Angular, but the basic loading of an image is using the JavaScript FileReader class, and so with some minor tweaks you should be able to use with other JavaScript frameworks.">
+
+
+  <meta name="author" content="Jon Warrington">
+  
+  <meta property="article:author" content="Jon Warrington">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Random Musing from Jon Warrington">
+<meta property="og:title" content="Upload Image and Convert to Data URL in Angular">
+<meta property="og:url" content="https://blog.ggbetawerks.com/upload-image-to-data-url/">
+
+
+  <meta property="og:description" content="I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuration can be stored somewhere for example storing it in the browsers localstorage.  To do this, I wanted to be able to load the image into a data url which is in a string format, making it easier to store.  I’m using Angular, but the basic loading of an image is using the JavaScript FileReader class, and so with some minor tweaks you should be able to use with other JavaScript frameworks.">
+
+
+
+  <meta property="og:image" content="https://blog.ggbetawerks.com/assets/images/angular.svg">
+
+
+
+  <meta name="twitter:site" content="@JonWarrington">
+  <meta name="twitter:title" content="Upload Image and Convert to Data URL in Angular">
+  <meta name="twitter:description" content="I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuration can be stored somewhere for example storing it in the browsers localstorage.  To do this, I wanted to be able to load the image into a data url which is in a string format, making it easier to store.  I’m using Angular, but the basic loading of an image is using the JavaScript FileReader class, and so with some minor tweaks you should be able to use with other JavaScript frameworks.">
+  <meta name="twitter:url" content="https://blog.ggbetawerks.com/upload-image-to-data-url/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://blog.ggbetawerks.com/assets/images/angular.svg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2021-02-18T17:12:59-07:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://blog.ggbetawerks.com/upload-image-to-data-url/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://blog.ggbetawerks.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Random Musing from Jon Warrington Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/gg-logo-copy.svg" alt="Random Musing from Jon Warrington"></a>
+        
+        <a class="site-title" href="/">
+          Random Musing from Jon Warrington
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/tags/battletech/">Battletech</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/software-development/">Software Development</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero"
+  style=" background-image: url('');"
+>
+  
+    <img src="/assets/images/angular.svg" alt="Upload Image and Convert to Data URL in Angular" class="page__hero-image">
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatarpic-l-128x128.png" alt="Jon Warrington" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jon Warrington</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developing software professionally since 2001, working in all sorts of languages, and industries. Recently doing full stack development in C# and Angular.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Edmonton, Alberta, Canada</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://techhub.social/@JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span class="label">Mastodon</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/BartokW" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/bartokw/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+          
+            <li><a href="https://linktr.ee/jonwarrington" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">LinkTree</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:jonw@ggsoftwerks.com">
+            <meta itemprop="email" content="jonw@ggsoftwerks.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Upload Image and Convert to Data URL in Angular">
+    <meta itemprop="description" content="I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuration can be stored somewhere for example storing it in the browsers localstorage.  To do this, I wanted to be able to load the image into a data url which is in a string format, making it easier to store.  I’m using Angular, but the basic loading of an image is using the JavaScript FileReader class, and so with some minor tweaks you should be able to use with other JavaScript frameworks.">
+    <meta itemprop="datePublished" content="2021-02-18T17:12:59-07:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Upload Image and Convert to Data URL in Angular
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-02-18T17:12:59-07:00">February 18, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>I have a little application that I wanted the user to be able to upload their own images, and be able to store them in a json format so that the configuration can be stored somewhere for example storing it in the browsers localstorage.  To do this, I wanted to be able to load the image into a data url which is in a string format, making it easier to store.  I’m using Angular, but the basic loading of an image is using the JavaScript FileReader class, and so with some minor tweaks you should be able to use with other JavaScript frameworks.</p>
+
+<p>First I need a way to upload the image, this is done using the html input control.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;input</span> 
+    	<span class="na">type=</span><span class="s">"file"</span>
+    	<span class="na">accept=</span><span class="s">"image/png, image/jpeg"</span>
+    <span class="nt">/&gt;</span>
+</code></pre></div></div>
+<p>Now I need to be able to do something when the user chooses a file, for this I’ll add an Angular function to handle the input control’s on change event.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">handleFileUpload</span><span class="p">(</span><span class="nx">files</span><span class="p">:</span> <span class="nx">FileList</span><span class="p">){</span>
+    	<span class="c1">// Just logging the selected files for now</span>
+    	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">files</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;input</span>
+		<span class="na">type=</span><span class="s">"file"</span>
+		<span class="na">accept=</span><span class="s">"image/png, image/jpeg"</span>
+		<span class="na">(change)=</span><span class="s">"handleFileInput($event.target.files)"</span>
+	<span class="nt">/&gt;</span>
+</code></pre></div></div>
+<figcaption>Added the change event handler</figcaption>
+
+<p>To actually load the image into a data url which looks like this: <code class="language-plaintext highlighter-rouge">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==</code> I will use the JavaScript FileReader class.  This needs to have an onload callback set to do something with the file once it has been loaded.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">handleFileUpload</span><span class="p">(</span><span class="nx">files</span><span class="p">:</span> <span class="nx">FileList</span><span class="p">){</span>
+    	<span class="kd">const</span> <span class="nx">fileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+    	<span class="c1">// Set the onload callback to do something with the loaded file</span>
+    	<span class="nx">fileReader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    		<span class="c1">// just log the data url</span>
+    		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fileReader</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+    	<span class="p">};</span>
+    	<span class="c1">// Trigger the file load</span>
+    	<span class="nx">fileReader</span><span class="p">.</span><span class="nx">readAsDataURL</span><span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">item</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+<p>To display the image I will need to store the data url somewhere, as I want to be able to have several images uploaded. For this I will use an array of strings.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">imageList</span><span class="p">:</span> <span class="kr">string</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="nx">handleFileUpload</span><span class="p">(</span><span class="nx">files</span><span class="p">:</span> <span class="nx">FileList</span><span class="p">){</span>
+	<span class="c1">// A list of images to be displayed</span>
+	<span class="kd">const</span> <span class="nx">fileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+    <span class="c1">// Set the onload callback to do something with the loaded file</span>
+    <span class="nx">fileReader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;{</span>
+    	<span class="c1">// Add the newly loaded image data url to the imageList</span>
+    	<span class="k">this</span><span class="p">.</span><span class="nx">imageList</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">fileReader</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+    <span class="p">};</span>
+    <span class="c1">// Trigger the file load</span>
+    <span class="nx">fileReader</span><span class="p">.</span><span class="nx">readAsDataURL</span><span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">item</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<figure class="kg-card kg-code-card"><figcaption>Changed the onload callback to push the image to an imageList array</figcaption></figure>
+
+<p>I just need to have an image tag for each image setting the source to the stored value in the array.  So I can just iterate over the array using an ngFor, creating an img html element for each.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;img</span> <span class="na">*ngFor=</span><span class="s">"let image of imageList"</span> <span class="na">[src]=</span><span class="s">"image"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+<figure class="kg-card kg-code-card"><figcaption>Simple angular for loop over each of the images in the imageList</figcaption></figure>
+
+<h3 id="unsafe-url">Unsafe Url</h3>
+
+<p>There have been a few situations where I have run into an Angular error complaining about unsafe urls. This has been mostly when hard coding a data url in my code for testing purposes, but there is a way around it.  You just need to use the Angular DomSanitizer to mark the url safe. However, that then returns a <code class="language-plaintext highlighter-rouge">SafeUrl</code> instead of a <code class="language-plaintext highlighter-rouge">string</code> which typescript will complain about when trying to add it to your imageList.  I built this simple little method that takes a data url and marks it safe, and then converts back to a string which fixed the problem for me anytime it arose.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">markDataUrlSafe</span><span class="p">(</span><span class="nx">dataUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
+    	<span class="c1">// Marks the url safe</span>
+        <span class="kd">const</span> <span class="nx">safeUrl</span><span class="p">:</span> <span class="nx">SafeUrl</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">domSanitizer</span><span class="p">.</span><span class="nx">bypassSecurityTrustUrl</span><span class="p">(</span><span class="nx">dataUrl</span><span class="p">);</span>
+        <span class="c1">// Sanitizes the passed in value, returning a url string</span>
+        <span class="kd">const</span> <span class="nx">url</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">domSanitizer</span><span class="p">.</span><span class="nx">sanitize</span><span class="p">(</span><span class="nx">SecurityContext</span><span class="p">.</span><span class="nx">URL</span><span class="p">,</span> <span class="nx">safeUrl</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">url</span><span class="p">;</span>
+      <span class="p">}</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/angular" class="page__taxonomy-item" rel="tag">angular</a><span class="sep">, </span>
+    
+      <a href="/tags/software-development" class="page__taxonomy-item" rel="tag">software-development</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-02-18T17:12:59-07:00">February 18, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=JonWarrington&text=Upload+Image+and+Convert+to+Data+URL+in+Angular%20https%3A%2F%2Fblog.ggbetawerks.com%2Fupload-image-to-data-url%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fblog.ggbetawerks.com%2Fupload-image-to-data-url%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fblog.ggbetawerks.com%2Fupload-image-to-data-url%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/building-an-ionic-5-wizard-component/" class="pagination--pager" title="Building an Ionic 5 Wizard Component in Angular
+">Previous</a>
+    
+    
+      <a href="/battletech-lego-mosaics/" class="pagination--pager" title="Battletech Lego Mosaics
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/rxjs-lego-art/angular-mosaic.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/rxjs-and-lego-art/" rel="permalink">RxJS and LEGO<sup>®</sup> Art
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-07-15T14:05:00-06:00">July 15, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I recently gave a lightning talk (short talk) at the Angular Community Meetup talking about using RxJS in making LEGO® mosaics
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ionic-angular-copy.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/building-an-ionic-5-wizard-component/" rel="permalink">Building an Ionic 5 Wizard Component in Angular
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-12T20:10:00-06:00">July 12, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Working on a project, I came across the need for a wizard style dialog, so I did the normal thing, doing a search and finding a few options for older version...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/xbox-360-hacked-account-still-not-resolved/" rel="permalink">XBox 360 Hacked Account Still Not Resolved
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2012-01-08T22:32:00-07:00">January 8, 2012</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">After seeing an article on January 6, 2012, about someone else having their account hacked on the Kotaku gaming news site, and having read her account here, ...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/xbox-360-account-hacked-10-weeks-still-not-resolved/" rel="permalink">XBox 360 Account Hacked - 10 Weeks Still Not Resolved
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2011-12-07T20:19:00-07:00">December 7, 2011</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I know not many people read this blog (I don’t post enough) but just have to get this out there, as this is no way to make a happy customer.
+
+Approximately 1...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <a rel="me" href="https://techhub.social/@JonWarrington">
+        <i class="fab fa-fw fa-mastodon" aria-hidden="true"></i>
+        Mastodon</a
+      >
+    </li>
+  </ul>
+</div>
+
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/JonWarrington" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/BartokW" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Random Musing from Jon Warrington. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149211643-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149211643-1', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
